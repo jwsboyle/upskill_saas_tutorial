@@ -7,7 +7,6 @@
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
-
   <body>
     <nav class="navbar navbar-default navbar-static-top" role="navigation">
       <div class="container">
@@ -25,8 +24,12 @@
         </div>
         <div class="collapse navbar-collapse" id="main-nav-collapse">
           <div class="nav navbar-nav navbar-right">
-          <%= link_to "Log In", new_user_session_path, class: "btn btn-default navbar-btn" %>
-          <%= link_to "Sign Up", new_user_registration_path, class: "btn btn-default navbar-btn" %>
+            <% if user_signed_in? %>
+              <%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: "btn btn-default navbar-btn" %>
+            <% else %>
+              <%= link_to "Log In", new_user_session_path, class: "btn btn-default navbar-btn" %>
+              <%= link_to "Sign Up", new_user_registration_path, class: "btn btn-default navbar-btn" %>
+            <% end %>
           </div>
           <ul class="nav navbar-nav navbar-right">
             <li><%= link_to "About", about_path %></li>
@@ -38,13 +41,9 @@
     
     <div class="container">
       <% flash.each do |type, msg| %>
-        <!--<%= content_tag :div, msg, class: "alert alert-#{type}" %>-->
+        <%= content_tag :div, msg, class: "alert alert-#{type}" %>
       <% end %>
-    
     </div>  
-    
-    
-    
     <%= yield %>
   </body>
 </html>
